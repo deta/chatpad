@@ -12,9 +12,9 @@ import {
   Tooltip,
   useMantineTheme,
 } from "@mantine/core";
-import { useClickOutside } from "@mantine/hooks";
-import { IconArrowForward, IconCopy, IconTrash, IconUser } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { useClickOutside, useClipboard } from "@mantine/hooks";
+import { IconArrowForward, IconBolt, IconCopy, IconTrash, IconUser } from "@tabler/icons-react";
+import { useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Message, detaDB } from "../db";
@@ -22,6 +22,8 @@ import "../styles/markdown.scss";
 import { CreatePromptModal } from "./CreatePromptModal";
 import { LogoIcon } from "./Logo";
 import { notifications } from "@mantine/notifications";
+import { useChat, useIntegrations } from "../hooks/contexts";
+import { Minima } from "../integrations/minima";
 
 export function MessageItem({ message, readOnly = false, onDeleted, handleUseMessage }: { message: Message, readOnly?: boolean, onDeleted?: (key: string) => void, handleUseMessage?: (key: string) => void }) {
   const wordCount = useMemo(() => {
@@ -32,6 +34,11 @@ export function MessageItem({ message, readOnly = false, onDeleted, handleUseMes
   const [isExpanded, setExpanded] = useState(false);
   const ref = useClickOutside(() => setExpanded(false));
   const theme = useMantineTheme();
+  const markdownRef = useRef<HTMLDivElement>(null)
+  const clipboard = useClipboard({ timeout: 500 });
+
+  const { integrations } = useIntegrations()
+  const { chat } = useChat()
 
   const handleDelete = async () => {
     await detaDB.messages.delete(message.key);
@@ -45,6 +52,28 @@ export function MessageItem({ message, readOnly = false, onDeleted, handleUseMes
       color: "green",
       message: "Message deleted.",
     });
+  }
+
+  const handleIntegration = async () => {
+    console.log(integrations)
+
+    const html = markdownRef.current?.innerHTML || ''
+
+    console.log({html})
+
+    const minimaConfig = integrations?.find(i => i.key === 'minima')
+    if (minimaConfig) {
+      const minima = new Minima(minimaConfig.instance, minimaConfig.apiKey)
+
+      const noteUrl = await minima.storeContent(html, chat?.description || 'Dialogue AI Chat')
+      clipboard.copy(noteUrl)
+
+      notifications.show({
+        title: "Success",
+        color: "green",
+        message: "Message stored in Minima and link copied to clipboard.",
+      })
+    }
   }
 
   return (
@@ -66,7 +95,7 @@ export function MessageItem({ message, readOnly = false, onDeleted, handleUseMes
           </ThemeIcon>
         )}
         {message.role === "assistant" && <LogoIcon style={{ height: 32 }} color1={theme.colors[theme.primaryColor][3]} color2={theme.colors[theme.primaryColor][7]} />}
-        <Box sx={{ flex: 1, width: 0 }} className="markdown">
+        <Box sx={{ flex: 1, width: 0 }} className="markdown" ref={markdownRef}>
           <ReactMarkdown
             children={message.content}
             remarkPlugins={[remarkGfm]}
@@ -111,6 +140,15 @@ export function MessageItem({ message, readOnly = false, onDeleted, handleUseMes
           </Box>
 
           <Box style={{ display: 'flex' }}>
+            {integrations && (
+              <Tooltip label="Send to Space" position="top">
+                <ActionIcon onClick={handleIntegration}>
+                  {/* <IconBolt opacity={0.5} size={20} /> */}
+                  <img src="/assets/integrations/deta.png" height={20} style={{ opacity: 0.75 }} />
+                </ActionIcon>
+              </Tooltip>
+            )}
+
             {!readOnly && handleUseMessage && (
               <>
                 <CreatePromptModal content={message.content || ''} />
