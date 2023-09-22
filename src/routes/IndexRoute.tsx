@@ -41,11 +41,7 @@ export function IndexRoute() {
     {prompts && prompts.length > 0 ? (
      <Container size="md" fluid>
       <Flex align="center" gap={10}>
-       <LogoIcon
-        style={{ maxWidth: 45 }}
-        color1={theme.colors[theme.primaryColor][3]}
-        color2={theme.colors[theme.primaryColor][7]}
-       />
+       <LogoIcon w={10} />
        <Text size="2.25rem" weight={700}>
         Dialogue
        </Text>

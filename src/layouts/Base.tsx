@@ -240,11 +240,7 @@ export function BaseLayout({ children }: { children: React.ReactNode }) {
                gap: 8,
               }}
              >
-              <LogoIcon
-               style={{ height: 22, display: "block" }}
-               color1={theme.colors[theme.primaryColor][3]}
-               color2={theme.colors[theme.primaryColor][7]}
-              />
+              <LogoIcon w={22} />
               <Text size="1.25rem" weight={600}>
                Dialogue
               </Text>
