@@ -41,7 +41,7 @@ app.get('/public/chats/:key/messages', async (req, res) => {
 
 app.get('/space/actions/config', async (req, res) => {
     res.json({
-        isSetup: interop.isSetup
+        isSetup: interop.isSetup()
     })
 })
 

@@ -2,10 +2,14 @@ import { fetchFn } from "deta-space-client"
 import { AppAction } from "./types"
 
 export const useInterop = (token?: string) => {
-    const authToken = token || process.env.SPACE_ACCESS_TOKEN || ''
-    const fetch = fetchFn(authToken)
+    const getAuthToken = () => {
+        return token || process.env.SPACE_ACCESS_TOKEN || ''
+    }
 
     const request = async (path: string, body?: any, method = 'GET') => {
+        const authToken = getAuthToken()
+        const fetch = fetchFn(authToken)
+
         const res = await fetch(path, {
             method,
             body: JSON.stringify(body),
@@ -27,10 +31,16 @@ export const useInterop = (token?: string) => {
         return data
     }
 
+    const isSetup = () => {
+        const authToken = getAuthToken()
+
+        return !!authToken
+    }
+
     return {
         request,
         listActions,
         invokeAction,
-        isSetup: !!authToken
+        isSetup,
     }
 }
