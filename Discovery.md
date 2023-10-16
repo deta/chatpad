@@ -1,9 +1,16 @@
 ---
 app_name: "Dialogue"
-tagline: "An open-source ChatGPT UI alternative"
+tagline: "Chat with an AI, ya dingus!"
 git: "https://github.com/deta/dialogue"
-theme_color: "#F76705"
+theme_color: "#536DED"
 ported_from: "https://github.com/deiucanta/chatpad"
+open_code: true
+media:
+- "screenshots/dialogue-main.png"
+- "screenshots/dialogue-chat.png"
+- "screenshots/custom-prompts.png"
+- "screenshots/shared-chats.png"
+- "screenshots/incognito-mode.png"
 ---
 
 ## Features
@@ -15,7 +22,7 @@ ported_from: "https://github.com/deiucanta/chatpad"
 - ↩️ One-click undo message & edit chats
 - 🌍 Share your chats with the world
 
-> Note: requires your own OpenAI API key
+*Note: requires your own OpenAI API key*
 
 ## Credits
 
