@@ -56,7 +56,7 @@ export function Logo(
 export function LogoIcon({ w }: { w: number | undefined }) {
  return (
   <Box w={w ? w : 22}>
-   <Image radius="sm" src="/icon.webp" />
+   <Image radius="sm" src="/assets/icon.webp" />
   </Box>
  );
 }
