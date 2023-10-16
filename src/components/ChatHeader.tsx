@@ -22,6 +22,7 @@ import { Chat, detaDB } from "../db";
 import { useChat, useChats } from "../hooks/contexts";
 import { EditChatModal } from "./EditChatModal";
 import { ShareChatModal } from "./ShareChatModal";
+import { LogoIcon } from "./Logo";
 
 export function ChatHeader({ readOnly = false }: { readOnly?: boolean }) {
  const [title, setTitle] = useState("");
@@ -79,15 +80,11 @@ export function ChatHeader({ readOnly = false }: { readOnly?: boolean }) {
    >
     <div>
      {readOnly && (
-      <Link to="/" style={{ display: "block" }}>
-       <Title
-        order={3}
-        style={{
-         color: theme.colors[theme.primaryColor][6],
-        }}
-       >
-        Dialogue
-       </Title>
+      <Link to="/" style={{ display: "block", textDecoration: 'none', color: 'inherit' }}>
+        <Flex gap="sm" align="center">
+            <LogoIcon w={30} />
+            <Title size="1.25rem" weight={500}>Dialogue</Title>
+        </Flex>
       </Link>
      )}
     </div>

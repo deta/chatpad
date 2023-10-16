@@ -10,6 +10,7 @@ import {
  Tooltip,
  ActionIcon,
  Card,
+ Title,
 } from "@mantine/core";
 import {
  useChats,
@@ -40,11 +41,9 @@ export function IndexRoute() {
    <Center py="xl" sx={{ height: "100%" }}>
     {prompts && prompts.length > 0 ? (
      <Container size="md" fluid>
-      <Flex align="center" gap={10}>
-       <LogoIcon w={10} />
-       <Text size="2.25rem" weight={700}>
-        Dialogue
-       </Text>
+      <Flex gap="md" align="center">
+        <LogoIcon w={48} />
+        <Title order={1}>Dialogue</Title>
       </Flex>
       <Text mt={4} size="xl">
        An open-source ChatGPT UI alternative
