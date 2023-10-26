@@ -31,7 +31,7 @@ const features = [
   icon: IconLock,
   title: "Privacy focused",
   description:
-   "No tracking, no cookies, no bullshit. All your data is stored locally.",
+   "No tracking, no cookies, no bullshit. All your data is stored in your personal cloud computer.",
  },
  {
   icon: IconNorthStar,
@@ -76,7 +76,7 @@ export function Welcome() {
      </div>
     ))}
    </SimpleGrid>
-   <Flex mt={50} align="center" gap="md">
+   <Flex mt={50} align="center" gap="md" wrap="wrap">
     {settings?.openAiApiKey && (
      <CreateChatButton size="md">
       {incognitoMode ? "Create a New Private Chat" : "Create a New Chat"}
