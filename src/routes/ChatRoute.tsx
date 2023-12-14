@@ -35,6 +35,9 @@ export function ChatRoute() {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
+  const hostnameParts = window.location.hostname.split('.')
+  const isEmbed = hostnameParts.length === 3 && hostnameParts[0].endsWith('embed')
+
   useEffect(() => {
     // fetch data
     const dataFetch = async () => {
@@ -450,7 +453,7 @@ export function ChatRoute() {
               styles={{ input: { paddingRight: 60, paddingTop: '0.7rem !important', paddingBottom: '0.7rem !important' } }}
               placeholder="Your message here..."
               autosize
-              autoFocus
+              autoFocus={!isEmbed}
               disabled={submitting}
               minRows={1}
               maxRows={8}
